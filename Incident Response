@@ -1,0 +1,252 @@
+#!/usr/bin/env python3
+"""
+Incident Response Simulator
+Author: Mark Robinson 
+Description: Simulates a phishing-to-ransomware incident response scenario
+             following the NIST SP 800-61 incident response lifecycle.
+             Demonstrates Tier 1 SOC analyst triage and documentation skills.
+"""
+
+from datetime import datetime
+
+
+# --- Incident Data ---
+INCIDENT = {
+    "id": "INC-2026-0042",
+    "detected": "2026-03-15 02:14:33",
+    "reported_by": "Splunk SIEM Alert",
+    "alert_name": "Ransomware Behavior Detected - File Encryption Activity",
+    "affected_host": "WORKSTATION-07",
+    "affected_user": "jsmith",
+    "src_ip": "192.168.1.107",
+    "external_ip": "185.220.101.45",
+    "malicious_domain": "secure-update-cdn.ru",
+    "malware_hash": "a3f8c2d1e4b9071234abcdef5678901234567890",
+}
+
+IOCS = [
+    {"type": "IP Address",   "value": "185.220.101.45",               "confidence": "HIGH"},
+    {"type": "Domain",       "value": "secure-update-cdn.ru",         "confidence": "HIGH"},
+    {"type": "File Hash",    "value": INCIDENT["malware_hash"],        "confidence": "HIGH"},
+    {"type": "Registry Key", "value": "HKCU\\Software\\WindowsUpdate", "confidence": "MEDIUM"},
+    {"type": "File Path",    "value": "C:\\Users\\jsmith\\AppData\\Roaming\\svchost32.exe",
+                                                                       "confidence": "HIGH"},
+]
+
+TIMELINE = [
+    ("2026-03-15 01:47:22", "Phishing email received by jsmith@acmecorp.com"),
+    ("2026-03-15 01:52:14", "User clicked malicious link in email"),
+    ("2026-03-15 01:52:31", "Malicious payload downloaded from secure-update-cdn.ru"),
+    ("2026-03-15 01:52:45", "Malware executed — persistence established via registry"),
+    ("2026-03-15 02:01:18", "Lateral movement attempted to WORKSTATION-12"),
+    ("2026-03-15 02:14:33", "File encryption activity detected by Splunk SIEM"),
+    ("2026-03-15 02:14:33", "ALERT triggered — Analyst notified"),
+]
+
+PLAYBOOK = {
+    "P1 — CRITICAL": [
+        "Immediately isolate affected host from network",
+        "Notify Incident Response team lead",
+        "Preserve forensic image of affected system",
+        "Block malicious IP and domain at perimeter firewall",
+        "Reset credentials for affected user account",
+        "Notify executive team and legal if data exfiltration suspected",
+        "Open P1 incident bridge call",
+        "Begin 15-minute status update cycle"
+    ],
+    "Containment": [
+        "Disable affected user account in Active Directory",
+        "Block IOCs in EDR platform (CrowdStrike/Defender)",
+        "Search SIEM for other hosts communicating with malicious IP/domain",
+        "Capture full memory dump of affected system",
+        "Preserve all relevant logs before any remediation"
+    ],
+    "Eradication": [
+        "Remove malware and all persistence mechanisms",
+        "Scan all systems for matching file hash",
+        "Patch exploited vulnerability if identified",
+        "Verify clean state with EDR platform",
+        "Update SIEM detection rules based on new IOCs"
+    ],
+    "Recovery": [
+        "Restore affected files from last known good backup",
+        "Rebuild system from clean image if fully compromised",
+        "Re-enable user account after credential reset",
+        "Monitor restored system for 72 hours post-recovery",
+        "Gradually restore to production environment"
+    ]
+}
+
+
+def separator(char="=", width=60):
+    print(char * width)
+
+
+def print_header():
+    separator()
+    print("  INCIDENT RESPONSE SIMULATOR")
+    print("  Author: Mark Robinson | CompTIA Security+")
+    print("  Framework: NIST SP 800-61")
+    separator()
+
+
+def phase_1_detection():
+    """Phase 1 - Detection & Initial Triage."""
+    print("\n")
+    separator()
+    print("  PHASE 1 — DETECTION & INITIAL TRIAGE")
+    separator()
+    print(f"\n ALERT RECEIVED")
+    print(f"     Incident ID:    {INCIDENT['id']}")
+    print(f"     Time Detected:  {INCIDENT['detected']}")
+    print(f"     Alert Name:     {INCIDENT['alert_name']}")
+    print(f"     Detected By:    {INCIDENT['reported_by']}")
+    print(f"     Affected Host:  {INCIDENT['affected_host']}")
+    print(f"     Affected User:  {INCIDENT['affected_user']}")
+    print(f"     Source IP:      {INCIDENT['src_ip']}")
+
+
+def phase_2_classification():
+    """Phase 2 - Severity Classification."""
+    print("\n")
+    separator()
+    print("  PHASE 2 — SEVERITY CLASSIFICATION")
+    separator()
+
+    criteria = [
+        ("Ransomware / destructive malware detected", True),
+        ("Active file encryption in progress",        True),
+        ("Lateral movement attempted",                True),
+        ("Multiple systems potentially affected",     True),
+        ("Sensitive data exfiltration suspected",     True),
+    ]
+
+    print("\n  Classification Criteria:")
+    score = 0
+    for criterion, met in criteria:
+        status = "YES" if met else "NO"
+        print(f"     {status} — {criterion}")
+        if met:
+            score += 1
+
+    severity = "P1 — CRITICAL" if score >= 4 else \
+               "P2 — HIGH"     if score >= 3 else \
+               "P3 — MEDIUM"   if score >= 2 else \
+               "P4 — LOW"
+
+    print(f"\n  ⚡ SEVERITY CLASSIFICATION: {severity}")
+    print(f"     Score: {score}/5 criteria met")
+    print(f"     MITRE: T1566 (Phishing) → T1078 (Valid Accounts) → T1486 (Ransomware)")
+    return severity
+
+
+def phase_3_iocs():
+    """Phase 3 - IOC Identification."""
+    print("\n")
+    separator()
+    print("  PHASE 3 — INDICATORS OF COMPROMISE (IOCs)")
+    separator()
+    print()
+    for ioc in IOCS:
+        print(f"  [{ioc['confidence']}] {ioc['type']}")
+        print(f"         {ioc['value']}\n")
+
+    print("  Action: Add all HIGH confidence IOCs to:")
+    print("     - Firewall blocklist")
+    print("     - EDR platform threat indicators")
+    print("     - SIEM watchlist for lateral spread detection")
+
+
+def phase_4_timeline():
+    """Phase 4 - Incident Timeline."""
+    print("\n")
+    separator()
+    print("  PHASE 4 — INCIDENT TIMELINE")
+    separator()
+    print()
+    for timestamp, event in TIMELINE:
+        print(f"  {timestamp}  |  {event}")
+
+
+def phase_5_containment(severity):
+    """Phase 5 - Containment Actions."""
+    print("\n")
+    separator()
+    print("  PHASE 5 — CONTAINMENT PLAYBOOK")
+    separator()
+
+    print(f"\n  Executing playbook for: {severity}\n")
+    for i, action in enumerate(PLAYBOOK[severity], 1):
+        print(f"  {i:02d}. {action}")
+
+    print(f"\n  Additional Containment Steps:")
+    for i, action in enumerate(PLAYBOOK["Containment"], 1):
+        print(f"  {i:02d}. {action}")
+
+
+def phase_6_report(severity):
+    """Phase 6 - Generate Incident Report."""
+    print("\n")
+    separator()
+    print("  PHASE 6 — INCIDENT REPORT")
+    separator()
+
+    report_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    print(f"""
+  INCIDENT REPORT
+  ===============
+  Incident ID:       {INCIDENT['id']}
+  Report Generated:  {report_time}
+  Analyst:           Mark Robinson
+  Severity:          {severity}
+
+  SUMMARY:
+  A phishing email was delivered to {INCIDENT['affected_user']} at
+  {TIMELINE[0][0]}. The user clicked a malicious link leading
+  to malware installation. The malware established persistence,
+  attempted lateral movement, and began encrypting files before
+  being detected by Splunk SIEM at {INCIDENT['detected']}.
+
+  AFFECTED ASSETS:
+  - Host: {INCIDENT['affected_host']} ({INCIDENT['src_ip']})
+  - User: {INCIDENT['affected_user']}
+
+  IOCs IDENTIFIED: {len(IOCS)}
+  - {len([i for i in IOCS if i['confidence'] == 'HIGH'])} HIGH confidence
+  - {len([i for i in IOCS if i['confidence'] == 'MEDIUM'])} MEDIUM confidence
+
+  MITRE ATT&CK:
+  - T1566: Phishing (Initial Access)
+  - T1078: Valid Accounts (Privilege Escalation)
+  - T1486: Data Encrypted for Impact (Impact)
+
+  IMMEDIATE ACTIONS TAKEN:
+  1. Host isolated from network
+  2. Malicious IP/domain blocked at firewall
+  3. User credentials reset
+  4. IR team notified and bridge opened
+  5. Forensic image initiated
+
+  STATUS: CONTAINED — Eradication in progress
+
+  NEXT STEPS:
+  1. Complete forensic analysis
+  2. Scan environment for additional compromise
+  3. Restore from backup after clean verification
+  4. Conduct lessons learned session
+  5. Update detection rules with new IOCs
+    """)
+    separator()
+    print("  END OF INCIDENT RESPONSE SIMULATION")
+    separator()
+
+
+if __name__ == "__main__":
+    print_header()
+    phase_1_detection()
+    severity = phase_2_classification()
+    phase_3_iocs()
+    phase_4_timeline()
+    phase_5_containment(severity)
+    phase_6_report(severity)
