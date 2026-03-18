@@ -1,6 +1,5 @@
 # Lab 1: SIEM Threat Detection with Splunk
 **Author:** Mark Robinson | CompTIA Security+ | Splunk ES 8.0  
-**Difficulty:** Beginner–Intermediate  
 **Tools:** Splunk Free Trial, Python, Sample Log Files  
 **MITRE ATT&CK Mapping:** T1110 (Brute Force), T1078 (Valid Accounts), T1046 (Network Service Scanning)
 
