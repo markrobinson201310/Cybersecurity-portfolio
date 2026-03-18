@@ -1,120 +1,86 @@
-# Cybersecurity Portfolio
-**Mark Robinson**  
-CompTIA Security+ | Google Cybersecurity Certificate | Splunk ES 8.0  
-Markrobinson201310@gmail.com | West Haven, CT
+# Lab 3: Incident Response Simulation
+**Author:** Mark Robinson | CompTIA Security+  
+**Tools:** Python  
+**Framework:** NIST SP 800-61 Incident Response Lifecycle  
+**MITRE ATT&CK Mapping:** T1566 (Phishing), T1078 (Valid Accounts), T1486 (Data Encrypted for Impact)
 
 ---
 
-## About This Portfolio
+## Objective
 
-This repository contains hands-on cybersecurity labs demonstrating core SOC analyst skills including SIEM threat detection, network traffic analysis, and incident response. Each lab simulates real-world attack scenarios and follows industry-standard frameworks including NIST SP 800-61 and MITRE ATT&CK.
-
-These labs were built to complement formal certifications with practical, demonstrable skills relevant to Tier 1 SOC Analyst, Security Analyst, and IT Security roles.
+Simulate a realistic phishing-to-ransomware incident response scenario, walking through each phase of the NIST incident response lifecycle: Preparation, Detection, Containment, Eradication, Recovery, and Lessons Learned.
 
 ---
 
-## Labs
+## Scenario Overview
 
-### [Lab 1 — SIEM Threat Detection with Splunk](./lab1-siem-detection/)
-Simulate real attack scenarios, generate log data, write SPL detection queries, and build a security dashboard in Splunk.
+**Incident:** A user at ACME Corp receives a phishing email, clicks a malicious link, and unknowingly installs malware. The malware establishes persistence, moves laterally, and begins encrypting files.
 
-**Skills:** Splunk ES, SPL queries, SIEM dashboard creation, threat detection  
-**MITRE:** T1110 (Brute Force), T1078 (Valid Accounts), T1046 (Port Scanning)
+**Your Role:** Tier 1 SOC Analyst responsible for initial triage, escalation, and documentation.
 
 ---
 
-### [Lab 2 — Network Traffic Analysis](./lab2-network-analysis/)
-Analyze simulated network traffic to detect port scans, data exfiltration, and C2 communication patterns.
+## Step-by-Step Walkthrough
 
-**Skills:** Network analysis, anomaly detection, Python scripting, security reporting  
-**MITRE:** T1046 (Network Scanning), T1048 (Exfiltration), T1071 (C2 Protocol)
+### Phase 1 — Preparation
+Before any incident occurs, ensure:
+- Incident response plan is documented
+- Contact lists are current
+- Tools are deployed (SIEM, EDR, ticketing)
+- Runbooks exist for common scenarios
 
----
-
-### [Lab 3 — Incident Response Simulation](./lab3-incident-response/)
-Walk through a complete phishing-to-ransomware incident response following the NIST SP 800-61 lifecycle.
-
-**Skills:** IR lifecycle, severity classification, IOC documentation, playbook execution  
-**MITRE:** T1566 (Phishing), T1078 (Valid Accounts), T1486 (Ransomware)
-
----
-
-## Technical Skills Demonstrated
-
-| Skill | Tools / Frameworks |
-| SIEM Operations | Splunk ES 8.0, SPL |
-| Threat Detection | Custom detection rules, threshold tuning |
-| Network Analysis | Traffic analysis, anomaly detection |
-| Incident Response | NIST SP 800-61, playbook execution |
-| Scripting | Python 3, Bash |
-| Frameworks | MITRE ATT&CK, NIST CSF |
-| Documentation | Incident reports, IOC tracking, runbooks |
-
----
-
-## Certifications
-
--  CompTIA Security+
--  Google Cybersecurity Certificate
--  Splunk Fundamentals 1
--  Splunk ES 8.0 Updates for SOC
-
----
-
-## How To Run The Labs
-
-### Prerequisites
+### Phase 2 — Detection & Analysis
+Run the incident response simulator:
 ```bash
-# Python 3.x required
-python3 --version
-
-# Install dependencies (none required beyond standard library)
-```
-
-### Lab 1 — SIEM Detection
-```bash
-cd lab1-siem-detection
-python3 generate_logs.py
-# Then follow README.md to ingest logs into Splunk
-```
-
-### Lab 2 — Network Analysis
-```bash
-cd lab2-network-analysis
-python3 network_analyzer.py
-```
-
-### Lab 3 — Incident Response
-```bash
-cd lab3-incident-response
 python3 incident_response.py
 ```
 
+The script will walk you through:
+1. Initial alert triage
+2. Severity classification
+3. IOC identification
+4. Escalation decision
+
+### Phase 3 — Containment
+Actions to take:
+- Isolate affected host from network
+- Reset compromised credentials
+- Block malicious IP/domain at firewall
+- Preserve forensic evidence
+
+### Phase 4 — Eradication
+- Remove malware from affected systems
+- Patch exploited vulnerabilities
+- Verify no persistence mechanisms remain
+
+### Phase 5 — Recovery
+- Restore from clean backups
+- Monitor for re-infection
+- Gradually restore services
+
+### Phase 6 — Lessons Learned
+- Document timeline
+- Root cause analysis
+- Process improvements
+- Update detection rules
+
 ---
 
-## Repository Structure
+## NIST IR Lifecycle Reference
 
 ```
-cybersecurity-portfolio/
-├── README.md
-├── lab1-siem-detection/
-│   ├── README.md
-│   └── generate_logs.py
-├── lab2-network-analysis/
-│   ├── README.md
-│   └── network_analyzer.py
-└── lab3-incident-response/
-    ├── README.md
-    └── incident_response.py
+PREPARATION → DETECTION → CONTAINMENT → ERADICATION → RECOVERY → LESSONS LEARNED
+     ↑                                                                    |
+     └────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Contact
+## Key Skills Demonstrated
 
-I am actively seeking entry-level SOC Analyst, Security Analyst, and IT Support roles.  
-Feel free to reach out via email or connect on LinkedIn.
-
-**Email:** Markrobinson201310@gmail.com  
-**Phone:** (203) 570-6570  
-**Location:** West Haven, CT (Remote friendly)
+- NIST SP 800-61 incident response framework
+- Severity classification (P1-P4)
+- IOC identification and documentation
+- Escalation procedures
+- Post-incident reporting
+- MITRE ATT&CK mapping
