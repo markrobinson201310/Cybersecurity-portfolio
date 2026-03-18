@@ -140,8 +140,3 @@ Summary:
 - Incident documentation practices
 - Dashboard creation for security visibility
 - Real SOC Tier 1 analyst workflows
-
-##  Related Labs in This Portfolio
-
-- [Lab 2: Network Traffic Analysis with Wireshark](../lab2-network-analysis/README.md)
-- [Lab 3: Incident Response Simulation](../lab3-incident-response/README.md)
