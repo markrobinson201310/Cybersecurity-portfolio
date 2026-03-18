@@ -47,7 +47,7 @@ The script will output:
 ### Step 3 — Document Findings
 Use the findings output to complete an incident report using the template below.
 
-### Step 4 — Verify in Wireshark (Optional)
+### Step 4 — Verify in Wireshark
 If you have Wireshark installed, open a PCAP file and apply these filters:
 - Port scan: `tcp.flags.syn == 1 and tcp.flags.ack == 0`
 - Large transfers: `tcp.len > 10000`
