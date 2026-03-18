@@ -54,10 +54,10 @@ Walk through a complete phishing-to-ransomware incident response following the N
 
 ## Certifications
 
-- ✅ CompTIA Security+
-- ✅ Google Cybersecurity Certificate
-- ✅ Splunk Fundamentals 1
-- ✅ Splunk ES 8.0 Updates for SOC
+-  CompTIA Security+
+-  Google Cybersecurity Certificate
+-  Splunk Fundamentals 1
+-  Splunk ES 8.0 Updates for SOC
 
 ---
 
@@ -92,7 +92,7 @@ python3 incident_response.py
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 cybersecurity-portfolio/
